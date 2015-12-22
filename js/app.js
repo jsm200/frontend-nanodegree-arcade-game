@@ -1,4 +1,6 @@
 
+
+
 // Enemies our player must avoid input x and y position coordinates and speed
 var Enemy = function(x,y,speed) {
     // Variables applied to each of our instances go here,
@@ -22,7 +24,7 @@ Enemy.prototype.update = function(dt) {
     //this.x = this.x + this.speed*dt;
     if (this.x > 500) {
         this.x = -100 + this.speed*dt;
-    };
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -48,9 +50,8 @@ Player.prototype.update = function(dt) {
     /* You should multiply any movement by the dt parameter
      which will ensure the game runs at the same speed for
      all computers. */
-    this.x; 
-    this.y ;
-    checkCollisions();
+    
+   // checkCollisions();
 };
 
  //Send player to "home" position
@@ -62,21 +63,21 @@ Player.prototype.reset = function() {
  //player x-axis screen limit
 Player.prototype.xPlayerLimit = function() {
     if (this.x <= -25) {
-            this.x = -25;
-        };
+        this.x = -25;
+        }
     if (this.x >= 425) {
-            this.x = 425;
-        };
+        this.x = 425;
+        }
 };
 
 //player y-axis screen limit
 Player.prototype.yPlayerLimit = function() {
     if (this.y <= 0) {
-            this.reset();
-        };
+        this.reset();
+        }
     if (this.y >= 430) {
-           this.y = 430;
-    };
+        this.y = 430;
+    }
 };
 
 // Draw the player on the screen, required method for game
@@ -84,24 +85,77 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
+//Player Movement
+Player.prototype.handleInput = function(arrowDir) {
+    
+    switch (arrowDir) {
+    case 'up':
+        this.y -= 50;
+        this.yPlayerLimit();
+        break;
+    case 'down':
+        this.y += 100;
+        this.yPlayerLimit();
+        break;
+    case 'left':
+        this.x -= 100;
+        this.xPlayerLimit();
+        break;
+    case 'right':
+        this.x += 100;
+        this.xPlayerLimit(); 
+        break;
+    default: 
+        document.write("You need to press an 'Arrow' key")
+    }
+
+//Previous reviewer of code suggested using Switch Statement
+    /*if (arrowDir === 'up') { // up key held
+        this.y -= 50;
+        this.yPlayerLimit();
+    }
+    if (arrowDir === 'down') { // down key held
+        this.y += 100;
+        this.yPlayerLimit();
+    }
+    if (arrowDir === 'left') { // left key held
+        this.x -= 100;
+        this.xPlayerLimit();
+    }
+    if (arrowDir === 'right') { // right key held
+        this.x += 100;
+        this.xPlayerLimit();
+    } */
+};
+
+
+
+
+
+
+
+
+
+
 //Player Movement
 Player.prototype.handleInput = function(arrowDir) {
     if (arrowDir === 'up') { // up key held
         this.y -= 50;
         this.yPlayerLimit();
-    };
+    }
     if (arrowDir === 'down') { // down key held
         this.y += 100;
         this.yPlayerLimit();
-    };
+    }
     if (arrowDir === 'left') { // left key held
         this.x -= 100;
         this.xPlayerLimit();
-    };
+    }
     if (arrowDir === 'right') { // right key held
         this.x += 100;
         this.xPlayerLimit();
-    };
+    }
 };
 
 // Now instantiate your objects.
@@ -127,14 +181,14 @@ function checkCollisions(){
           console.log('ok to here');
           //send player to "home" position
             player.reset();
-        };
-    };
-};
+        }
+    }
+}
 
 //generate initial random speed for each enemy
 function randomInt(min,max){
     return (Math.random()*(max-min +1)) + min;
-};
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -147,4 +201,3 @@ document.addEventListener('keyup', function(e) {
     };
      player.handleInput(allowedKeys[e.keyCode]);
 });
-
